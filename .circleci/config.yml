@@ -1,0 +1,146 @@
+version: 2.0
+
+jobs:
+  "ruby-2.2.7":
+    docker:
+      - image: circleci/ruby:2.2.7
+    environment:
+      - NOBENCHMARK: 1
+    steps:
+      - checkout
+      # Restore bundle cache
+      - type: cache-restore
+        key: bundle-{{ checksum "Gemfile" }}
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+
+      # Store bundle cache
+      - type: cache-save
+        key: bundle-{{ checksum "Gemfile" }}
+        paths:
+          - vendor/bundle
+      - run:
+          name: Run tests
+          command: |
+            bundle show
+            gem -v
+            cat Gemfile.lock
+            rake
+
+  "ruby-2.3.4":
+    docker:
+      - image: circleci/ruby:2.3.4
+    environment:
+      - NOBENCHMARK: 1
+    steps:
+      - checkout
+      # Restore bundle cache
+      - type: cache-restore
+        key: bundle-{{ checksum "Gemfile" }}
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+
+      # Store bundle cache
+      - type: cache-save
+        key: bundle-{{ checksum "Gemfile" }}
+        paths:
+          - vendor/bundle
+      - run:
+          name: Run tests
+          command: |
+            bundle show
+            gem -v
+            cat Gemfile.lock
+            rake
+
+  "ruby-2.4.1":
+    docker:
+      - image: circleci/ruby:2.4.1
+    environment:
+      - NOBENCHMARK: 1
+    steps:
+      - checkout
+      # Restore bundle cache
+      - type: cache-restore
+        key: bundle-{{ checksum "Gemfile" }}
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+
+      # Store bundle cache
+      - type: cache-save
+        key: bundle-{{ checksum "Gemfile" }}
+        paths:
+          - vendor/bundle
+      - run:
+          name: Run tests
+          command: |
+            bundle show
+            gem -v
+            cat Gemfile.lock
+            rake
+
+  "jruby-1.7.27":
+    docker:
+      - image: notnoopci/jruby:1.7.27
+    environment:
+      - NOBENCHMARK: 1
+    steps:
+      - checkout
+      # Restore bundle cache
+      - type: cache-restore
+        key: bundle-{{ checksum "Gemfile" }}
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+
+      # Store bundle cache
+      - type: cache-save
+        key: bundle-{{ checksum "Gemfile" }}
+        paths:
+          - vendor/bundle
+      - run:
+          name: Run tests
+          command: |
+            bundle show
+            gem -v
+            cat Gemfile.lock
+            rake
+
+  "jruby-9.1.12.0":
+    docker:
+      - image: notnoopci/jruby:9.1.12.0
+    environment:
+      - NOBENCHMARK: 1
+    steps:
+      - checkout
+      # Restore bundle cache
+      - type: cache-restore
+        key: bundle-{{ checksum "Gemfile" }}
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+
+      # Store bundle cache
+      - type: cache-save
+        key: bundle-{{ checksum "Gemfile" }}
+        paths:
+          - vendor/bundle
+      - run:
+          name: Run tests
+          command: |
+            bundle show
+            gem -v
+            cat Gemfile.lock
+            rake
+workflows:
+  version: 2
+  build:
+    jobs:
+      - "ruby-2.2.7"
+      - "ruby-2.3.4"
+      - "ruby-2.4.1"
+      - "jruby-1.7.27"
+      - "jruby-9.1.12.0"
